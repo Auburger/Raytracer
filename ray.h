@@ -6,8 +6,6 @@
 // GENERAL RAYTRACER LOGIC: A ray is like a function P(t) = A + tb. A is the origin
 //, b is the direction, and t moves the ray along a line. This is what the at method is doing
 
-// As ray is a class, we can call the functions by .origin and .direction
-// the functions return an immutable reference to their members
 class ray
 {
     public:
@@ -25,7 +23,7 @@ class ray
         return orig + t*dir;
     }
 
-    private: // if we wanna call these, we have to call them by going ray::orig, and ray::dir
+    private: 
     point3 orig;
     vec3 dir;
 };
