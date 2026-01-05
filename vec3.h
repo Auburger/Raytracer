@@ -1,56 +1,28 @@
-// this is a library defining vector-related operations
-#ifndef VEC3_H //ifndef: checks if VEC3_H has been defined
-#define VEC3_H // defines VEC3_H 
-// ifndef and define are preprocessor directives, work together to implement header guards
-// ifndef checks if VEC3_H has been defined, if so, the preprocessor will skip everything
-// until #endif, so it doesn't get processed again
-// if we code multiple libraries with this library, and then try to import them all into
-// a project, these make sure they don't fuck up the compiler by trying to import vec3_h multiple times
+
+#ifndef VEC3_H 
+#define VEC3_H
 
 
-class vec3 { // class declaration: introduces a class without providing its complete implementation
-    // what's a class? it's like a struct (in C) with functions in it
+class vec3 { 
     public:
-        double e[3]; // data member declaration: data member is the variable that stores the state/data of an object
-        // stores the 3 vector components of the vector (x,y,z), each vec3 object gets its own copy of this array
-        // CONSTRUCTORS: initialize the objects (vec3s) in this case, as they're created
-        // same name as the class, no return type, can have parameters
-        // special method automatically called when an object is created
-        // controls how objects are created
+        double e[3]; 
         vec3() : e{0,0,0} {} // default constructor (0 vector)
-        vec3(double e0, double e1, double e2) : e{e0, e1, e2} {} // parametrized constructor (creates a vector with specific values)
-        // you create a vec3 by using 3 doubles: ig the 2 case thing means that it'll work if you 
-        // call vec3 v1 (with no values) and vec3 v1(1,2,3) it'll work? the first one shows you what the empty
-        // case is supposed to be, the second how to assign values to it
-
-    // ALL THESE FUNCTIONS (defined in the class) are MEMBER functions, they change the input itself
-    // (Possibly why they use the *this pointer): even the ones that don't use the pointer use it implicitly
-    // the methods with the = sign operate on the objects themselves
-
-        // METHODS: operate on the object's data
-        // the following 3 are acessor functions (they return each component)
-        // const means they don't modify the object, provide controlled access to data
+        vec3(double e0, double e1, double e2) : e{e0, e1, e2} {} 
         double x() const { return e[0]; }
         double y() const { return e[1]; }
         double z() const { return e[2]; }
 
-        // OPERATOR OVERLOADS: Custom things we want our operators (+, -, etc) to do on the object
-        // I guess the empty brackets mean it just operates on the object 
-        vec3 operator-() const { return vec3(-e[0], -e[1], -e[2]); } // negation: if vec3 v(1,2,3), doing -v results in (-1, -2, -3)
+        // OPERATOR OVERLOADS: 
+        vec3 operator-() const { return vec3(-e[0], -e[1], -e[2]); } 
         double operator[](int i) const { return e[i]; } // read-only operator: if vec3 v(1,2,3), doing vec[0] returns 1
         double& operator[] (int i) { return e[i]; } // like above, but can read and write
 
-        // COMPOUND ASSIGNMENT OPERATORS: Modify the object
-        vec3& operator+=(const vec3& v) { //vec3&: returns a reference to the modified object
-            // operator+= means += is the operator being overloaded 
-            // const vec3& v : takes in a reference to another vec3, called v 
-            // const means unchangeable, & is the reference: it's like an alias for the og variable: we modify it directly
-            // & is like a pointer, but less bullshit
-            e[0] += v.e[0]; // e is the object, v is what we're operating on (the other object passed in)
+        // COMPOUND ASSIGNMENT OPERATORS: 
+        vec3& operator+=(const vec3& v) { 
+            e[0] += v.e[0];
             e[1] += v.e[1];
             e[2] += v.e[2];
-            return *this; // this is a pointer to the object that called the function -- we're returning the actual value of what "this" points to
-            // i.e., we're returning the modified vec3 that called the function
+            return *this; 
         }
 
         vec3& operator*=(double t) { // scalar multiplication
@@ -64,11 +36,10 @@ class vec3 { // class declaration: introduces a class without providing its comp
             return *this *= 1/t;
         }
 
-        // LENGTH CALCULATIONS: kinda smart actually, length usees length squared
+        // LENGTH CALCULATIONS:
         // it's just the magnitude of a vector
         double length() const {
-            return std::sqrt(length_squared()); // std:: is just saying the length_squared function is defined in the
-            // standard library, basically means nothing, it's just to shut up the compiler
+            return std::sqrt(length_squared()); 
         }
 
         double length_squared() const {
