@@ -15,8 +15,6 @@ inline double linear_to_gamma(double linear_component)
     return 0;
 }
 
-// using std::ostream (a type/class) instead of something like std::cout, allows this to work
-// for any kind of output, not just console or file
 // using vectors as colours because we do not need to reinvent the wheel lmao
 void write_colour(std::ostream& out, const colour& pixel_colour)
 {
@@ -30,7 +28,7 @@ void write_colour(std::ostream& out, const colour& pixel_colour)
     b = linear_to_gamma(b);
 
     static const interval intensity(0.000, 0.999);
-    // I guess with what we're doing, r, g and b are only going to be between 0 and 1
+    // r, g and b are only going to be between 0 and 1
     int rbyte = int(255.999 * intensity.clamp(r));
     int gbyte = int(255.999 * intensity.clamp(g));
     int bbyte = int(255.999 * intensity.clamp(b));
